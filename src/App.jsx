@@ -1,11 +1,9 @@
-import { useState } from 'react'
 import './App.css'
+import LandingPage from './components/LandingPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="text-blue-600">Hello, World!</div>
+    <LandingPage/>
   )
 }
 
