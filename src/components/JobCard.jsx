@@ -3,7 +3,7 @@ import Badge from "./Badge";
 
 const JobCard = ({company, role, status, appliedAt, salary}) => {
     return (
-        <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow duration-200">
+        <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow duration-200 animate-fade-in">
             <div className="flex justify-between items-start mb-4">
                 <div className="flex-1">
                     <h3 className="text-xl font-bold text-gray-900">{company}</h3>
