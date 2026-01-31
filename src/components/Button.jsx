@@ -1,4 +1,4 @@
-const Button = ({text, className = "", type, primary = true, onClick}) => {
+const Button = ({text, className ="", type="button", primary = true, onClick}) => {
     const primaryStyles = "bg-yellow-400 hover:bg-yellow-500 text-gray-900 shadow-lg shadow-yellow-400/30 hover:shadow-xl hover:shadow-yellow-500/40";
     const secondaryStyles = "bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-gray-300 shadow-md";
     

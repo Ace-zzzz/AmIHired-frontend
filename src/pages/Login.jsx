@@ -1,5 +1,6 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     return (
@@ -26,19 +27,19 @@ const Login = () => {
                             <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
                             <span className="text-gray-600">Remember me</span>
                         </label>
-                        <a href="#" className="text-yellow-500 hover:text-yellow-600 font-medium transition-colors">
+                        <Link to="#" className="text-yellow-500 hover:text-yellow-600 font-medium transition-colors">
                             Forgot password?
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 
                 <Button text="Sign In" className="w-full mt-2" />
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
-                    Don't have an account?{" "}
-                    <a href="#" className="text-yellow-500 hover:text-yellow-600 font-semibold transition-colors">
+                    Don't have an account?
+                    <Link to="#" className="text-yellow-500 hover:text-yellow-600 font-semibold transition-colors">
                         Sign up
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
