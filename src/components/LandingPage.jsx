@@ -1,10 +1,11 @@
 import Button from "./Button";
+import CheckMark from "./CheckMark";
 
 const LandingPage = () => {
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 via-yellow-50/30 to-gray-50 flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 via-yellow-50/40 to-yellow-100/30 flex items-center justify-center px-4 py-12">
             <div className="max-w-7xl w-full">
-                <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 md:p-16 shadow-2xl shadow-gray-200/50 border border-gray-100 flex flex-col lg:flex-row justify-between items-center gap-12 lg:gap-16">
+                <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 md:p-16 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] border border-gray-100 flex flex-col lg:flex-row justify-between items-center gap-12 lg:gap-16">
                     <div className="max-w-2xl space-y-6 animate-fade-in">
                         <div className="inline-block">
                             <span className="text-sm font-semibold text-yellow-600 bg-yellow-100 px-4 py-2 rounded-full">
@@ -21,7 +22,7 @@ const LandingPage = () => {
                             <br/>
                             Track applications
                             <br/>
-                            <span className="bg-linear-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                            <span className="bg-linear-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
                                 without the overwhelm
                             </span>
                         </h1>
@@ -32,34 +33,26 @@ const LandingPage = () => {
                         
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <Button 
+                                type="button"
                                 text="Get Started for Free" 
-                                attributes="transform hover:scale-105 transition-all duration-200"
+                                className="transform hover:scale-105 transition-all duration-200"
                                 primary={true}/>
                             <Button 
+                                type="button"
                                 text="View Source Code" 
-                                attributes="transform hover:scale-105 transition-all duration-200"
+                                className="transform hover:scale-105 transition-all duration-200"
                                 primary={false}/>
                         </div>
 
                         <div className="flex items-center gap-8 pt-6 text-sm text-gray-500">
-                            <div className="flex items-center gap-2">
-                                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                                </svg>
-                                <span>No credit card required</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                                </svg>
-                                <span>Free forever</span>
-                            </div>
+                            <CheckMark text="No credit card required"/>
+                            <CheckMark text="Free forever"/>
                         </div>
                     </div>
 
                     <div className="relative lg:shrink-0 animate-float">
-                        <div className="absolute inset-0 bg-yellow-400/20 rounded-3xl blur-3xl"></div>
-                        <div className="relative bg-linear-to-br from-yellow-400/80 to-yellow-500/80 shadow-2xl shadow-yellow-400/50 rounded-3xl p-2 transform hover:rotate-1 transition-transform duration-300">
+                        <div className="absolute inset-0 bg-yellow-400/40 rounded-3xl blur-3xl"></div>
+                        <div className="relative bg-linear-to-br from-yellow-400 to-yellow-600 shadow-[0_25px_60px_-12px_rgba(251,191,36,0.9)] rounded-3xl p-2 transform hover:rotate-1 transition-transform duration-300">
                             <img 
                                 className="h-64 md:h-80 lg:h-96 w-auto rounded-2xl" 
                                 src="/images/landingPageImage.svg" 
