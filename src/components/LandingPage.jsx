@@ -1,7 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import CheckMark from "./CheckMark";
 
 const LandingPage = () => {
+    const navigate = useNavigate();
+
+    const handleGetStarted = () => {
+        navigate('/login');
+    }
+    
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 via-yellow-50/40 to-yellow-100/30 flex items-center justify-center px-4 py-12">
             <div className="max-w-7xl w-full">
@@ -33,6 +40,7 @@ const LandingPage = () => {
                         
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <Button 
+                                onClick={handleGetStarted}
                                 type="button"
                                 text="Get Started for Free" 
                                 className="transform hover:scale-105 transition-all duration-200"
