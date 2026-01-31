@@ -1,7 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import CheckMark from "./CheckMark";
 
 const LandingPage = () => {
+    const navigate = useNavigate();
+
+    const handleGetStarted = () => {
+        navigate('/login');
+    }
+    
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 via-yellow-50/40 to-yellow-100/30 flex items-center justify-center px-4 py-12">
             <div className="max-w-7xl w-full">
@@ -33,6 +40,7 @@ const LandingPage = () => {
                         
                         <div className="flex flex-col sm:flex-row gap-4 pt-4">
                             <Button 
+                                onClick={handleGetStarted}
                                 type="button"
                                 text="Get Started for Free" 
                                 className="transform hover:scale-105 transition-all duration-200"
@@ -52,10 +60,10 @@ const LandingPage = () => {
 
                     <div className="relative lg:shrink-0 animate-float">
                         <div className="absolute inset-0 bg-yellow-400/40 rounded-3xl blur-3xl"></div>
-                        <div className="relative bg-linear-to-br from-yellow-400 to-yellow-600 shadow-[0_25px_60px_-12px_rgba(251,191,36,0.9)] rounded-3xl p-2 transform hover:rotate-1 transition-transform duration-300">
+                        <div className="relative  shadow-[0_25px_60px_-12px_rgba(251,191,36,0.9)] rounded-3xl p-2 transform hover:rotate-1 transition-transform duration-300">
                             <img 
-                                className="h-64 md:h-80 lg:h-96 w-auto rounded-2xl" 
-                                src="/images/landingPageImage.svg" 
+                                className="h-64 md:h-80 lg:h-96 max-w-md rounded-2xl" 
+                                src="/images/FloatDoodle.svg" 
                                 alt="Job tracking dashboard illustration" 
                             />
                         </div>
