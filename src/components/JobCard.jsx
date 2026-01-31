@@ -28,8 +28,8 @@ const JobCard = ({company, role, status, appliedAt, salary}) => {
             </div>
 
             <div className="flex gap-2 pt-4 border-t border-gray-100">
-                <Button text={"Edit"} primary={false}/>
-                <Button text={"Delete"} primary={false}/>
+                <Button text={"Edit"} primary={false} className="bg-blue-400 hover:bg-blue-500 text-xs p-2 px-3 font-bold text-white"/>
+                <Button text={"Delete"} primary={false} className="bg-red-400 hover:bg-red-500 text-xs p-2 font-bold text-white"/>
             </div>
         </div>
     )
