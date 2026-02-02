@@ -1,7 +1,7 @@
 import Button from './Button';
 import Input from './Input';
 
-const JobModal = ({ isOpen, isClose }) => {
+const JobModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
@@ -9,7 +9,7 @@ const JobModal = ({ isOpen, isClose }) => {
       {/* Backdrop */}
       <div 
         className="absolute inset-0"
-        onClick={isClose}
+        onClick={onClose}
       ></div>
       
       {/* Modal */}
@@ -19,7 +19,7 @@ const JobModal = ({ isOpen, isClose }) => {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-800">Add New Job</h2>
             <button
-              onClick={isClose}
+              onClick={onClose}
               className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
             >
               &times;
@@ -139,7 +139,7 @@ const JobModal = ({ isOpen, isClose }) => {
               <Button
                 text={"Cancel"}
                 type="button"
-                onClick={isClose}
+                onClick={onClose}
                 className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
               />
               <Button

@@ -8,7 +8,7 @@ const ModalProvider = () => {
 
     return (
         <>
-            {type === "createJob" && <JobModal isOpen={isOpen} isClose={onClose} />}
+            {type === "createJob" && <JobModal isOpen={isOpen} onClose={onClose} />}
         </>
     )
 }
