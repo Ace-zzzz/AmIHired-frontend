@@ -1,18 +1,9 @@
-import { useState } from "react";
 import Button from "../components/Button";
 import JobCard from "../components/JobCard";
-import JobModal from "../components/JobModal";
+import useModalStore from "../hooks/useModalStore";
 
 const Dashboard = () => {
-    const [open, setOpen] = useState(false)
-
-    const handleOpen = () => {
-        setOpen(true);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
+    const {onOpen} = useModalStore();
 
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
@@ -47,7 +38,7 @@ const Dashboard = () => {
                             <p className="text-gray-600 mt-1">Manage your job applications</p>
                         </div>
                         <Button 
-                            onClick={handleOpen}
+                            onClick={() => onOpen("createJob")}
                             text="+ Add New Job" 
                             className="shadow-lg"
                         />
@@ -62,8 +53,6 @@ const Dashboard = () => {
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
                     </div>
-
-                    {open ? <JobModal isOpen={open} onClose={handleClose} /> : ""}
                 </div>
         </div>
     );
