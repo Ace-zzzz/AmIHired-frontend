@@ -47,7 +47,7 @@ const Login = () => {
             }
 
         } catch (error) {
-            const errorData = error.response?.data || "Servcer Connection Failed";
+            const errorData = error.response?.data || "Server Connection Failed";
 
             onOpen("error", errorData);
         }

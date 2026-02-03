@@ -9,7 +9,7 @@ const JobCard = ({company, role, status, appliedAt, salary}) => {
                     <h3 className="text-xl font-bold text-gray-900">{company}</h3>
                     <p className="text-gray-600 mt-1">{role}</p>
                 </div>
-                <Badge status={"Applied"} className="bg-amber-200"/>
+                <Badge status={status} className="bg-amber-200"/>
             </div>
             
             <div className="space-y-2 mb-4">
