@@ -5,13 +5,18 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ModalProvider from './provider/ModalProvider';
 import ProtectedRoute from './auth/ProtectedRoute';
+import UnprotectedRoute from './auth/UnprotectedRoute';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<LandingPage/>}/>
-        <Route path='/login' element={<Login/>}/>
+        {/*UNPROTECTED ROUTES*/}
+        <Route element={<UnprotectedRoute/>}>
+          <Route path='/' element={<LandingPage/>}/>
+          <Route path='/login' element={<Login/>}/>
+        </Route>
+        
 
         {/*PROTECTED ROUTES*/}
         <Route element={ <ProtectedRoute/> }>
