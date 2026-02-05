@@ -1,9 +1,12 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { Link, useNavigate } from "react-router-dom";
+import ClickableSpan from "../components/ClickableSpan";
+import { useNavigate } from "react-router-dom";
 import api from "../axios/api"
 import { useState } from "react";
 import userModalStore from '../hooks/useModalStore';
+import EyeIcon from "../components/icons/EyeIcon";
+import EyeSlashIcon from "../components/icons/EyeSlashIcon";
 
 const Login = () => {
     /**
@@ -20,12 +23,25 @@ const Login = () => {
 
     /**
      * USED TO STORE 
-     * USERNAME AND PASSWORD 
+     * username AND password VALUE
      **/
     const [formData, setFormData] = useState({
         username: "",
         password: "",
     });
+    
+    /**
+     * USED TO STORE 
+     * showPassword VALUE
+     **/
+    const [showPassword, setShowPassword] = useState(false);
+
+    /**
+     * TOGGLE PASSWORD VISIBILITY
+     **/
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    } 
 
     /**
      * HANDLE THE LOGIN SUBMITION
@@ -53,6 +69,10 @@ const Login = () => {
         }
     }
 
+    const handleSignUp = () => {
+        navigate('/sign-up');
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen p-4 bg-linear-to-br from-gray-50 to-gray-100">
             <div className="grid grid-cols-1 gap-y-6 shadow-2xl bg-white rounded-2xl p-8 w-full max-w-md animate-fade-in">
@@ -75,21 +95,34 @@ const Login = () => {
                         onChange={(e) => setFormData({... formData, username: e.target.value})}
                         required={true}
                     />
-                    <Input 
-                        type="password" 
-                        placeholder="Password"
-                        onChange={(e) => setFormData({... formData, password: e.target.value})}
-                        required={true}
-                    />
+                    <div className="relative">
+                        <Input 
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            onChange={(e) => setFormData({... formData, password: e.target.value})}
+                            required={true}
+                        />
+                        <button
+                            onClick={handleShowPassword}
+                            type="button"
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            {
+                                showPassword ?
+                                <EyeIcon />
+                                :
+                                <EyeSlashIcon />
+                            }
+                        </button>
+                    </div>
                     
                     <div className="flex items-center justify-between text-sm">
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
                             <span className="text-gray-600">Remember me</span>
                         </label>
-                        <Link to="#" className="text-yellow-500 hover:text-yellow-600 font-medium transition-colors">
-                            Forgot password?
-                        </Link>
+                        <ClickableSpan text="Forgot password?"/>
                     </div>
                 </form>
                 
@@ -101,10 +134,8 @@ const Login = () => {
                 />
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
-                    Don't have an account?
-                    <Link to="#" className="text-yellow-500 hover:text-yellow-600 font-semibold transition-colors">
-                        Sign up
-                    </Link>
+                    Don't have an account? <br />
+                    <ClickableSpan text="Sign up" onClick={handleSignUp} />
                 </div>
             </div>
         </div>

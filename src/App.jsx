@@ -4,14 +4,26 @@ import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ModalProvider from './provider/ModalProvider';
+import ProtectedRoute from './auth/ProtectedRoute';
+import UnprotectedRoute from './auth/UnprotectedRoute';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<LandingPage/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/dashboard' element={<Dashboard/>}/>
+        {/*UNPROTECTED ROUTES*/}
+        <Route element={<UnprotectedRoute/>}>
+          <Route path='/' element={<LandingPage/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/sign-up' element={<SignUp/>}/>
+        </Route>
+        
+
+        {/*PROTECTED ROUTES*/}
+        <Route element={ <ProtectedRoute/> }>
+          <Route path='/dashboard' element={<Dashboard/>}/>
+        </Route>
       </Routes>
 
       <ModalProvider />
