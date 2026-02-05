@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import ClickableSpan from "../components/ClickableSpan";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -55,9 +56,7 @@ const SignUp = () => {
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
                     Aleady have an account? <br />
-                    <span onClick={handleLogin} className="cursor-pointer text-yellow-500 hover:text-yellow-600 font-semibold transition-colors">
-                        Login
-                    </span>
+                    <ClickableSpan text="Login" onClick={handleLogin} />
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
+import ClickableSpan from "../components/ClickableSpan";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../axios/api"
 import { useState } from "react";
@@ -91,9 +92,7 @@ const Login = () => {
                             <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
                             <span className="text-gray-600">Remember me</span>
                         </label>
-                        <Link to="#" className="text-yellow-500 hover:text-yellow-600 font-medium transition-colors">
-                            Forgot password?
-                        </Link>
+                        <ClickableSpan text="Forgot password?"/>
                     </div>
                 </form>
                 
@@ -106,9 +105,7 @@ const Login = () => {
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
                     Don't have an account? <br />
-                    <span onClick={handleSignUp} className="cursor-pointer text-yellow-500 hover:text-yellow-600 font-semibold transition-colors">
-                        Sign up
-                    </span>
+                    <ClickableSpan text="Sign up" onClick={handleSignUp} />
                 </div>
             </div>
         </div>
