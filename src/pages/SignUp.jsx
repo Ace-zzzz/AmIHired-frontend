@@ -17,7 +17,7 @@ const SignUp = () => {
     // SWITCH/FLIP THE VALUE PASSWORD TYPE (password, confirmPassword) 
     const handleShowPassword = (fieldName) => {
         setShowPassword((prev) => ({
-            ...showPassword,
+            ...prev,
             [fieldName]: !prev[fieldName]
         }));
     }
@@ -59,6 +59,7 @@ const SignUp = () => {
                         />
                         <button
                             onClick={() => handleShowPassword("password")}
+                            aria-label={showPassword.password ? "Hide password" : "Show password"}
                             type="button"
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                         >
@@ -73,11 +74,12 @@ const SignUp = () => {
                     <div className="relative">
                         <Input 
                             type={showPassword.confirmPassword ? "text" : "password"}
-                            placeholder="Password"
+                            placeholder="Confirm Password"
                             required={true}
                         />
                         <button
                             onClick={() => handleShowPassword("confirmPassword")}
+                            aria-label={showPassword.confirmPassword ? "Hide Confirm password" : "Show Confirm password"}
                             type="button"
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
                         >
@@ -92,14 +94,14 @@ const SignUp = () => {
                 </form>
                 
                 <Button 
-                    text="Sign In" 
+                    text="Sign Up" 
                     className="w-full mt-2" 
                     type="submit" 
                     form="login-form"
                 />
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
-                    Aleady have an account? <br />
+                    Already have an account? <br />
                     <ClickableSpan text="Login" onClick={handleLogin} />
                 </div>
             </div>
