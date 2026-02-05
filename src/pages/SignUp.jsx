@@ -2,9 +2,25 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import ClickableSpan from "../components/ClickableSpan";
+import { useState } from "react";
+import EyeIcon from "../components/icons/EyeIcon";
+import EyeSlashIcon from "../components/icons/EyeSlashIcon";
 
 const SignUp = () => {
     const navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState({
+        password: false,
+        confirmPassword: false
+    });
+
+    // SWITCH/FLIP THE VALUE PASSWORD TYPE (password, confirmPassword) 
+    const handleShowPassword = (fieldName) => {
+        setShowPassword((prev) => ({
+            ...showPassword,
+            [fieldName]: !prev[fieldName]
+        }));
+    }
 
     const handleLogin = () => {
         navigate('/login');
@@ -35,16 +51,44 @@ const SignUp = () => {
                         placeholder="Username"
                         required={true}
                     />
-                    <Input 
-                        type="password" 
-                        placeholder="Password"
-                        required={true}
-                    />
-                    <Input 
-                        type="password" 
-                        placeholder="Confirm Password"
-                        required={true}
-                    />
+                    <div className="relative">
+                        <Input 
+                            type={showPassword.password ? "text" : "password"}
+                            placeholder="Password"
+                            required={true}
+                        />
+                        <button
+                            onClick={() => handleShowPassword("password")}
+                            type="button"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            {
+                                showPassword.password ?
+                                <EyeIcon />
+                                :
+                                <EyeSlashIcon />
+                            }
+                        </button>
+                    </div>
+                    <div className="relative">
+                        <Input 
+                            type={showPassword.confirmPassword ? "text" : "password"}
+                            placeholder="Password"
+                            required={true}
+                        />
+                        <button
+                            onClick={() => handleShowPassword("confirmPassword")}
+                            type="button"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                            {
+                                showPassword.confirmPassword ?
+                                <EyeIcon />
+                                :
+                                <EyeSlashIcon />
+                            }
+                        </button>
+                    </div>
                 </form>
                 
                 <Button 
