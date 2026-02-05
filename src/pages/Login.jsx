@@ -53,6 +53,10 @@ const Login = () => {
         }
     }
 
+    const handleSignUp = () => {
+        navigate('/sign-up');
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen p-4 bg-linear-to-br from-gray-50 to-gray-100">
             <div className="grid grid-cols-1 gap-y-6 shadow-2xl bg-white rounded-2xl p-8 w-full max-w-md animate-fade-in">
@@ -101,10 +105,10 @@ const Login = () => {
                 />
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
-                    Don't have an account?
-                    <Link to="#" className="text-yellow-500 hover:text-yellow-600 font-semibold transition-colors">
+                    Don't have an account? <br />
+                    <span onClick={handleSignUp} className="cursor-pointer text-yellow-500 hover:text-yellow-600 font-semibold transition-colors">
                         Sign up
-                    </Link>
+                    </span>
                 </div>
             </div>
         </div>

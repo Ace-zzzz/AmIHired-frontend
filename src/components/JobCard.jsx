@@ -1,5 +1,6 @@
 import Button from "./Button";
 import Badge from "./Badge";
+import CheckMark from "./CheckMark";
 
 const JobCard = ({company, role, status, appliedAt, salary}) => {
     return (
@@ -9,7 +10,7 @@ const JobCard = ({company, role, status, appliedAt, salary}) => {
                     <h3 className="text-xl font-bold text-gray-900">{company}</h3>
                     <p className="text-gray-600 mt-1">{role}</p>
                 </div>
-                <Badge status={status} className="bg-amber-200"/>
+                <CheckMark text={status}/>
             </div>
             
             <div className="space-y-2 mb-4">

@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import ModalProvider from './provider/ModalProvider';
 import ProtectedRoute from './auth/ProtectedRoute';
 import UnprotectedRoute from './auth/UnprotectedRoute';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route element={<UnprotectedRoute/>}>
           <Route path='/' element={<LandingPage/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/sign-up' element={<SignUp/>}/>
         </Route>
         
 
