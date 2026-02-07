@@ -25,7 +25,7 @@ const Login = () => {
      * USED TO STORE 
      * username AND password VALUE
      **/
-    const [formData, setFormData] = useState({
+    const [user, setUser] = useState({
         username: "",
         password: "",
     });
@@ -50,10 +50,7 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await api.post("/v1/users/login", {
-                username: formData.username,
-                password: formData.password,
-            });
+            const response = await api.post("/v1/users/login", {...user});
 
             const {message, success} = response.data;
             
@@ -92,14 +89,14 @@ const Login = () => {
                     <Input 
                         type="text" 
                         placeholder="Username"
-                        onChange={(e) => setFormData({... formData, username: e.target.value})}
+                        onChange={(e) => setUser({... user, username: e.target.value})}
                         required={true}
                     />
                     <div className="relative">
                         <Input 
                             type={showPassword ? "text" : "password"}
                             placeholder="Password"
-                            onChange={(e) => setFormData({... formData, password: e.target.value})}
+                            onChange={(e) => setUser({... user, password: e.target.value})}
                             required={true}
                         />
                         <button
