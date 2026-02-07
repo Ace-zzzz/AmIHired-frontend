@@ -27,6 +27,13 @@ const SignUp = () => {
         confirm_password: null
     });
 
+    // HANDLE USER INPUT
+    const handleOnchange = (field, value) => {
+        setUser({
+            ...user,
+            [field]: value
+        });
+    }
 
     // SWITCH/FLIP THE VALUE OF PASSWORD TYPE (password, confirmPassword) 
     const handleShowPassword = (fieldName) => {
@@ -42,12 +49,14 @@ const SignUp = () => {
 
         try {
             const response = await api.post("/v1/users/register", {...user});
-            
-            if (response.data?.success || false) {
-                const message = response.data?.message || "Server Connection Failed";
+            const {success, message} = response.data;
 
-                onOpen("success", message);
+            if (success) {
+                let messageData = message || "Account Created Successfully";
+                onOpen("success", messageData);
             }
+            else 
+                onOpen("error", "Something Went Wrong");
             
         } catch (error) {
             const errorMessage = error.response?.data || "Server Connection Failed";
@@ -74,29 +83,20 @@ const SignUp = () => {
                     <Input 
                         type="email" 
                         placeholder="Email"
-                        onChange={(e) => setUser({
-                            ...user,
-                            email: e.target.value
-                        })}
+                        onChange={(e) => handleOnchange("email", e.target.value)}
                         required={true}
                     />
                     <Input 
                         type="text" 
                         placeholder="Username"
-                        onChange={(e) => setUser({
-                            ...user,
-                            username: e.target.value
-                        })}
+                        onChange={(e) => handleOnchange("username", e.target.value)}
                         required={true}
                     />
                     <div className="relative">
                         <Input 
                             type={showPassword.password ? "text" : "password"}
                             placeholder="Password"
-                            onChange={(e) => setUser({
-                                ...user,
-                                password: e.target.value
-                            })}
+                            onChange={(e) => handleOnchange("password", e.target.value)}
                             required={true}
                         />
                         <button
@@ -117,10 +117,7 @@ const SignUp = () => {
                         <Input 
                             type={showPassword.confirmPassword ? "text" : "password"}
                             placeholder="Confirm Password"
-                            onChange={(e) => setUser({
-                                ...user,
-                                confirm_password: e.target.value
-                            })}
+                            onChange={(e) => handleOnchange("confirm_password", e.target.value)}
                             required={true}
                         />
                         <button

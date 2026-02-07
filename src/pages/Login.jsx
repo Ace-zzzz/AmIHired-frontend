@@ -10,7 +10,7 @@ import useGoto from "../hooks/useGoto";
 
 const Login = () => {
     // NAVIGATION HOOKS
-    const { gotToSignUp, goToDashboard } = useGoto();
+    const { goToSignUp, goToDashboard } = useGoto();
 
     /**
      * GET THE onOPen PROPERTY
@@ -55,11 +55,12 @@ const Login = () => {
                 localStorage.setItem("token", message);
                 goToDashboard();
             }
+            else 
+                onOpen("error", "Something Went Wrong");
 
         } catch (error) {
-            const errorData = error.response?.data || "Server Connection Failed";
-
-            onOpen("error", errorData);
+            const errorMessage = error.response?.data || "Server Connection Failed";
+            onOpen("error", errorMessage);
         }
     }
 
@@ -125,7 +126,7 @@ const Login = () => {
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
                     Don't have an account? <br />
-                    <ClickableSpan text="Sign up" onClick={gotToSignUp} />
+                    <ClickableSpan text="Sign up" onClick={goToSignUp} />
                 </div>
             </div>
         </div>

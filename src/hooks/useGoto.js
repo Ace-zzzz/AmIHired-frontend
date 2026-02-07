@@ -4,17 +4,17 @@ const useGoto = () => {
     const navigate = useNavigate();
 
     const goToLogin     = () => navigate('/login');
-    const gotToSignUp   = () => navigate('/sign-up');
+    const goToSignUp   = () => navigate('/sign-up');
     const goToDashboard = () => navigate('/dashboard');
 
     const goToLogout    = () => {
         localStorage.removeItem("token");
-        navigate('/logout');
+        navigate('/login');
     }
 
     return { 
         goToLogin,
-        gotToSignUp,
+        goToSignUp,
         goToDashboard,
         goToLogout
     };
