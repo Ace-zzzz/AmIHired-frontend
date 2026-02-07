@@ -5,16 +5,32 @@ import ClickableSpan from "../components/ClickableSpan";
 import { useState } from "react";
 import EyeIcon from "../components/icons/EyeIcon";
 import EyeSlashIcon from "../components/icons/EyeSlashIcon";
+import api from '../axios/api'
+import useModalStore from '../hooks/useModalStore'
 
 const SignUp = () => {
+    // HOOKS
     const navigate = useNavigate();
+    const { onOpen } = useModalStore();
 
     const [showPassword, setShowPassword] = useState({
         password: false,
         confirmPassword: false
     });
 
-    // SWITCH/FLIP THE VALUE PASSWORD TYPE (password, confirmPassword) 
+    const [user, setUser] = useState({
+        email: null,
+        username: null,
+        password: null,
+        confirm_password: null
+    });
+
+    // NAVIGATE TO LOGIN
+    const handleLogin = () => {
+        navigate('/login');
+    }
+
+    // SWITCH/FLIP THE VALUE OF PASSWORD TYPE (password, confirmPassword) 
     const handleShowPassword = (fieldName) => {
         setShowPassword((prev) => ({
             ...prev,
@@ -22,8 +38,24 @@ const SignUp = () => {
         }));
     }
 
-    const handleLogin = () => {
-        navigate('/login');
+    // HANDLE USER REGISTRATION
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await api.post("/v1/users/register", {...user});
+            
+            if (response.data?.success || false) {
+                const message = response.data?.message || "Server Connection Failed";
+
+                onOpen("success", message);
+            }
+            
+        } catch (error) {
+            const errorMessage = error.response?.data || "Server Connection Failed";
+
+            onOpen("error", errorMessage);
+        }
     }
 
     return (
@@ -40,21 +72,33 @@ const SignUp = () => {
                     </div>
                 </div>
                 
-                <form className="space-y-4 mt-2">
+                <form onSubmit={handleSignUp} id="signup-id" className="space-y-4 mt-2">
                     <Input 
                         type="email" 
                         placeholder="Email"
+                        onChange={(e) => setUser({
+                            ...user,
+                            email: e.target.value
+                        })}
                         required={true}
                     />
                     <Input 
                         type="text" 
                         placeholder="Username"
+                        onChange={(e) => setUser({
+                            ...user,
+                            username: e.target.value
+                        })}
                         required={true}
                     />
                     <div className="relative">
                         <Input 
                             type={showPassword.password ? "text" : "password"}
                             placeholder="Password"
+                            onChange={(e) => setUser({
+                                ...user,
+                                password: e.target.value
+                            })}
                             required={true}
                         />
                         <button
@@ -75,6 +119,10 @@ const SignUp = () => {
                         <Input 
                             type={showPassword.confirmPassword ? "text" : "password"}
                             placeholder="Confirm Password"
+                            onChange={(e) => setUser({
+                                ...user,
+                                confirm_password: e.target.value
+                            })}
                             required={true}
                         />
                         <button
@@ -97,7 +145,7 @@ const SignUp = () => {
                     text="Sign Up" 
                     className="w-full mt-2" 
                     type="submit" 
-                    form="login-form"
+                    form="signup-id"
                 />
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
