@@ -1,19 +1,16 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import ClickableSpan from "../components/ClickableSpan";
-import { useNavigate } from "react-router-dom";
 import api from "../axios/api"
 import { useState } from "react";
 import userModalStore from '../hooks/useModalStore';
 import EyeIcon from "../components/icons/EyeIcon";
 import EyeSlashIcon from "../components/icons/EyeSlashIcon";
+import useGoto from "../hooks/useGoto";
 
 const Login = () => {
-    /**
-     * USE TO NAVIGATE TO 
-     * DIFFERERNT ROUTE
-     **/ 
-    const navigate = useNavigate();
+    // NAVIGATION HOOKS
+    const { gotToSignUp, goToDashboard } = useGoto();
 
     /**
      * GET THE onOPen PROPERTY
@@ -56,7 +53,7 @@ const Login = () => {
             
             if (success) {
                 localStorage.setItem("token", message);
-                navigate('/dashboard');
+                goToDashboard();
             }
 
         } catch (error) {
@@ -64,10 +61,6 @@ const Login = () => {
 
             onOpen("error", errorData);
         }
-    }
-
-    const handleSignUp = () => {
-        navigate('/sign-up');
     }
 
     return (
@@ -132,7 +125,7 @@ const Login = () => {
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
                     Don't have an account? <br />
-                    <ClickableSpan text="Sign up" onClick={handleSignUp} />
+                    <ClickableSpan text="Sign up" onClick={gotToSignUp} />
                 </div>
             </div>
         </div>

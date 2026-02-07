@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import ClickableSpan from "../components/ClickableSpan";
@@ -7,10 +6,13 @@ import EyeIcon from "../components/icons/EyeIcon";
 import EyeSlashIcon from "../components/icons/EyeSlashIcon";
 import api from '../axios/api'
 import useModalStore from '../hooks/useModalStore'
+import useGoto from "../hooks/useGoto";
 
 const SignUp = () => {
-    // HOOKS
-    const navigate = useNavigate();
+    // NAVIGATION HOOK
+    const { goToLogin } = useGoto();
+
+    // MODAL HOOK
     const { onOpen } = useModalStore();
 
     const [showPassword, setShowPassword] = useState({
@@ -25,10 +27,6 @@ const SignUp = () => {
         confirm_password: null
     });
 
-    // NAVIGATE TO LOGIN
-    const handleLogin = () => {
-        navigate('/login');
-    }
 
     // SWITCH/FLIP THE VALUE OF PASSWORD TYPE (password, confirmPassword) 
     const handleShowPassword = (fieldName) => {
@@ -150,7 +148,7 @@ const SignUp = () => {
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
                     Already have an account? <br />
-                    <ClickableSpan text="Login" onClick={handleLogin} />
+                    <ClickableSpan text="Login" onClick={goToLogin} />
                 </div>
             </div>
         </div>

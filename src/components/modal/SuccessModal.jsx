@@ -1,12 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import useGoto from "../../hooks/useGoto";
 import Button from '../Button';
 
 const SuccessModal = ({isOpen, onClose, data}) => {
-    const navigate = useNavigate();
+    const { goToLogin } = useGoto();
 
     // NAVIGATE TO THE LOGIN PAGE
     const handleNavigate = () => {
-        navigate("/login");
+        goToLogin();
         onClose();
     }
 
