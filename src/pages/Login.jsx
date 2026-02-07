@@ -1,19 +1,16 @@
 import Input from "../components/Input";
 import Button from "../components/Button";
 import ClickableSpan from "../components/ClickableSpan";
-import { useNavigate } from "react-router-dom";
 import api from "../axios/api"
 import { useState } from "react";
 import userModalStore from '../hooks/useModalStore';
 import EyeIcon from "../components/icons/EyeIcon";
 import EyeSlashIcon from "../components/icons/EyeSlashIcon";
+import useGoto from "../hooks/useGoto";
 
 const Login = () => {
-    /**
-     * USE TO NAVIGATE TO 
-     * DIFFERERNT ROUTE
-     **/ 
-    const navigate = useNavigate();
+    // NAVIGATION HOOKS
+    const { goToSignUp, goToDashboard } = useGoto();
 
     /**
      * GET THE onOPen PROPERTY
@@ -25,7 +22,7 @@ const Login = () => {
      * USED TO STORE 
      * username AND password VALUE
      **/
-    const [formData, setFormData] = useState({
+    const [user, setUser] = useState({
         username: "",
         password: "",
     });
@@ -50,27 +47,21 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await api.post("/v1/users/login", {
-                username: formData.username,
-                password: formData.password,
-            });
+            const response = await api.post("/v1/users/login", {...user});
 
             const {message, success} = response.data;
             
             if (success) {
                 localStorage.setItem("token", message);
-                navigate('/dashboard');
+                goToDashboard();
             }
+            else 
+                onOpen("error", "Something Went Wrong");
 
         } catch (error) {
-            const errorData = error.response?.data || "Server Connection Failed";
-
-            onOpen("error", errorData);
+            const errorMessage = error.response?.data || "Server Connection Failed";
+            onOpen("error", errorMessage);
         }
-    }
-
-    const handleSignUp = () => {
-        navigate('/sign-up');
     }
 
     return (
@@ -92,14 +83,14 @@ const Login = () => {
                     <Input 
                         type="text" 
                         placeholder="Username"
-                        onChange={(e) => setFormData({... formData, username: e.target.value})}
+                        onChange={(e) => setUser({... user, username: e.target.value})}
                         required={true}
                     />
                     <div className="relative">
                         <Input 
                             type={showPassword ? "text" : "password"}
                             placeholder="Password"
-                            onChange={(e) => setFormData({... formData, password: e.target.value})}
+                            onChange={(e) => setUser({... user, password: e.target.value})}
                             required={true}
                         />
                         <button
@@ -135,7 +126,7 @@ const Login = () => {
                 
                 <div className="text-center text-sm text-gray-600 mt-2">
                     Don't have an account? <br />
-                    <ClickableSpan text="Sign up" onClick={handleSignUp} />
+                    <ClickableSpan text="Sign up" onClick={goToSignUp} />
                 </div>
             </div>
         </div>
