@@ -1,6 +1,7 @@
 import Button from "../components/Button";
 import JobCard from "../components/JobCard";
 import useModalStore from "../hooks/useModalStore";
+import ProfileDropdown from "../components/ProfileDropdown";
 
 const Dashboard = () => {
     const {onOpen} = useModalStore();
@@ -8,27 +9,14 @@ const Dashboard = () => {
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
                 <div className="max-w-7xl mx-auto">
-                    {/* Profile Section - Compact */}
-                    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-8 shadow-sm">
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                                    JD
-                                </div>
-                                <div>
-                                    <h2 className="text-sm font-semibold text-gray-900">John Doe</h2>
-                                    <p className="text-xs text-gray-500">Software Engineer • San Francisco, CA</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4 text-xs text-gray-600">
-                                <span>john.doe@example.com</span>
-                                <span>•</span>
-                                <span>+1 (555) 123-4567</span>
-                                <button className="text-gray-900 hover:text-gray-600 underline ml-2">
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
+                    {/* Profile Section */}
+                    <div className="flex justify-center mb-8">
+                        <ProfileDropdown
+                            user={{
+                                name: "Jane Doe",
+                                email: "jane@example.com",
+                            }}
+                        />
                     </div>
 
                     {/* Header */}
