@@ -1,22 +1,30 @@
 import Button from "../components/Button";
 import JobCard from "../components/JobCard";
 import useModalStore from "../hooks/useModalStore";
+import useAuth from "../hooks/useAuth";
 import ProfileDropdown from "../components/ProfileDropdown";
 
 const Dashboard = () => {
-    const {onOpen} = useModalStore();
+    // CUSTOME HOOKS
+    const { onOpen } = useModalStore();
+    const { user, isLoading } = useAuth(); // USER HAS ONLY EMAIL AND USERNAME PROPERTIES
+
+
+    if (isLoading) {
+        return (
+            <div className="loading-container">
+                <div className="spinner"></div>
+                <p>Add Skeleton later</p>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
                 <div className="max-w-7xl mx-auto">
                     {/* Profile Section */}
                     <div className="flex justify-center mb-8">
-                        <ProfileDropdown
-                            user={{
-                                name: "Jane Doe",
-                                email: "jane@example.com",
-                            }}
-                        />
+                        <ProfileDropdown {...user} />
                     </div>
 
                     {/* Header */}

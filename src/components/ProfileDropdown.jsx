@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Settings, LogOut } from "lucide-react";
 import useGoto from '../hooks/useGoto';
 
-const ProfileDropdown = ({ user }) => {
+const ProfileDropdown = ({ username, email }) => {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const { goToLogout } = useGoto();
@@ -28,12 +28,12 @@ const ProfileDropdown = ({ user }) => {
             >
                 <div className="w-10 h-10 rounded-full bg-linear-to-br from-purple-500 to-orange-400 flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">
-                        {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                        {username[0].toUpperCase()}
                     </span>
                 </div>
                 <div className="text-left">
-                    <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                    <div className="text-xs text-gray-500">{user.email}</div>
+                    <div className="text-sm font-medium text-gray-900">{username}</div>
+                    <div className="text-xs text-gray-500">{email}</div>
                 </div>
             </button>
 
