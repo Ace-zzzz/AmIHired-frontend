@@ -20,7 +20,7 @@ const useAuth = () => {
                 console.error(error.response?.data);
             }
             finally {
-                setTimeout(() => setLoading(false), 6000);
+                setLoading(false)
             }
         };
 
