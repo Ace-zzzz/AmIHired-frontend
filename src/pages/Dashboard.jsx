@@ -8,18 +8,20 @@ import { useEffect, useState } from "react";
 import api from '../axios/api';
 
 const Dashboard = () => {
-    // CUSTOME HOOKS
+    // CUSTOM HOOKS
     const { onOpen } = useModalStore();
     const { user, isLoading } = useAuth(); // USER HAS ONLY EMAIL AND USERNAME PROPERTIES
 
     const [ jobs, setJobs ] = useState([]);
+    const [ isJobFetching, setJobFetching ] = useState(true);
 
     // FETCH JOBS
     useEffect(() => {
         if (user?.username) {
             api.get("/v1/job-application/jobs")
                .then(response => setJobs(response.data))
-               .catch(error => console.log(error.response?.data));
+               .catch(error => console.log(error.response?.data))
+               .finally(setJobFetching(false));
         }
 
     }, [user]);
@@ -37,9 +39,10 @@ const Dashboard = () => {
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Profile Section */}
-                <div className="flex justify-center mb-8">
-                    <ProfileDropdown {...user} />
-                </div>
+                { user && 
+                    <div className="flex justify-center mb-8">
+                        <ProfileDropdown {...user} />
+                    </div> }
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
@@ -55,7 +58,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Jobs Section */}
-                { jobs.length === 0 ? <Empty /> : 
+                { !isJobFetching && jobs.length === 0 ? <Empty /> : 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Interviewing"} appliedAt={"January 05 2026"} salary={"$330"}/>
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
