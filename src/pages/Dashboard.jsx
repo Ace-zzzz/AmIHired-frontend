@@ -1,50 +1,64 @@
 import Button from "../components/Button";
 import JobCard from "../components/JobCard";
 import useModalStore from "../hooks/useModalStore";
+import useAuth from "../hooks/useAuth";
+import ProfileDropdown from "../components/ProfileDropdown";
+import Empty from "../components/Empty";
+import { useEffect, useState } from "react";
+import api from '../axios/api';
 
 const Dashboard = () => {
-    const {onOpen} = useModalStore();
+    // CUSTOM HOOKS
+    const { onOpen } = useModalStore();
+    const { user, isLoading } = useAuth(); // USER HAS ONLY EMAIL AND USERNAME PROPERTIES
+
+    const [ jobs, setJobs ] = useState([]);
+    const [ isJobFetching, setJobFetching ] = useState(true);
+
+    // FETCH JOBS
+    useEffect(() => {
+        if (user?.username) {
+            api.get("/v1/job-application/jobs")
+               .then(response => setJobs(response.data))
+               .catch(error => console.log(error.response?.data))
+               .finally(setJobFetching(false));
+        }
+
+    }, [user]);
+
+    if (isLoading) {
+        return (
+            <div className="loading-container">
+                <div className="spinner"></div>
+                <p>Add Skeleton later</p>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
-                <div className="max-w-7xl mx-auto">
-                    {/* Profile Section - Compact */}
-                    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-8 shadow-sm">
-                        <div className="flex flex-wrap items-center justify-between gap-3">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                                    JD
-                                </div>
-                                <div>
-                                    <h2 className="text-sm font-semibold text-gray-900">John Doe</h2>
-                                    <p className="text-xs text-gray-500">Software Engineer • San Francisco, CA</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4 text-xs text-gray-600">
-                                <span>john.doe@example.com</span>
-                                <span>•</span>
-                                <span>+1 (555) 123-4567</span>
-                                <button className="text-gray-900 hover:text-gray-600 underline ml-2">
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+            <div className="max-w-7xl mx-auto">
+                {/* Profile Section */}
+                { user && 
+                    <div className="flex justify-center mb-8">
+                        <ProfileDropdown {...user} />
+                    </div> }
 
-                    {/* Header */}
-                    <div className="flex justify-between items-center mb-8">
-                        <div>
-                            <h1 className="text-4xl font-bold text-gray-900">Job Tracker</h1>
-                            <p className="text-gray-600 mt-1">Manage your job applications</p>
-                        </div>
-                        <Button 
-                            onClick={() => onOpen("createJob")}
-                            text="+ Add New Job" 
-                            className="shadow-lg"
-                        />
+                {/* Header */}
+                <div className="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 className="text-4xl font-bold text-gray-900">Job Tracker</h1>
+                        <p className="text-gray-600 mt-1">Manage your job applications</p>
                     </div>
+                    <Button 
+                        onClick={() => onOpen("createJob")}
+                        text="+ Add New Job" 
+                        className="shadow-lg"
+                    />
+                </div>
 
-                    {/* Jobs Grid */}
+                {/* Jobs Section */}
+                { !isJobFetching && jobs.length === 0 ? <Empty /> : 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Interviewing"} appliedAt={"January 05 2026"} salary={"$330"}/>
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
@@ -52,8 +66,8 @@ const Dashboard = () => {
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
                         <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                    </div>
-                </div>
+                    </div> }
+            </div>
         </div>
     );
 };
