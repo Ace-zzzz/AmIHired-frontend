@@ -85,17 +85,6 @@ const JobModal = ({ isOpen, onClose }) => {
                 </select>
               </div>
 
-              {/* Date Applied */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Date Applied
-                </label>
-                <Input
-                  type="date"
-                  name="dateApplied"
-                />
-              </div>
-
               {/* Salary */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">

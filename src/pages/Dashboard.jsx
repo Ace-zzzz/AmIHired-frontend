@@ -39,10 +39,11 @@ const Dashboard = () => {
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Profile Section */}
-                { user && 
+                { user && (
                     <div className="flex justify-center mb-8">
                         <ProfileDropdown {...user} />
-                    </div> }
+                    </div> 
+                )}
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
@@ -58,15 +59,16 @@ const Dashboard = () => {
                 </div>
 
                 {/* Jobs Section */}
-                { !isJobFetching && jobs.length === 0 ? <Empty /> : 
+                { 
+                    !isJobFetching && jobs.length === 0 ? <Empty /> : 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Interviewing"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                    </div> }
+                        {
+                            jobs.map((job) => (
+                                <JobCard key={job.id} {...job} />
+                            ))
+                        }
+                    </div> 
+                }
             </div>
         </div>
     );
