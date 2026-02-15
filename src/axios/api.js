@@ -46,12 +46,14 @@ api.interceptors.response.use(
         return response;
     },
     (error) => {
-        // You can also handle global 401 (Unauthorized) errors here!
-        if (error.response?.status === 401) {
-            console.warn("Token expired or invalid");
-            // localStorage.removeItem("token");
-            // window.location.href = "/login";
+        const status = error.response?.status;
+
+        // HANDLE UNAUTHENTICATED ACCESS (OR TOKEN EXPIRED)
+        if (status === 401) {
+            localStorage.removeItem("token");
+            window.location("/login?session=expired");
         }
+
         return Promise.reject(error);
     }
 );
