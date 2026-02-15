@@ -1,5 +1,6 @@
 import Button from '../Button';
 import Input from '../Input';
+import Label from '../Label';
 
 const JobModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -31,52 +32,71 @@ const JobModal = ({ isOpen, onClose }) => {
             <div className="space-y-4">
               {/* Company Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Company Name *
-                </label>
+                <Label label="Company Name *" />
                 <Input
                   type="text"
                   name="company"
                   placeholder="e.g., Google"
-                  required
+                  required={true}
                 />
               </div>
 
               {/* Position */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Position *
-                </label>
+                <Label label="Position *" />
                 <Input
                   type="text"
                   name="position"
                   placeholder="e.g., Frontend Developer"
-                  required
+                  required={true}
                 />
               </div>
 
-              {/* Location */}
+              {/* Job URL */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Location
-                </label>
+                <Label label="Job URL" />
+                <Input
+                  type="url"
+                  name="jobUrl"
+                  placeholder="https://..."
+                />
+              </div>
+
+              {/* Salary */}
+              <div>
+                <Label label="Salary *" />
                 <Input
                   type="text"
-                  name="location"
-                  placeholder="e.g., San Francisco, CA"
+                  name="salary"
+                  placeholder="e.g., $80k - $120k"
+                  required={true}
                 />
               </div>
 
-              {/* Status */}
+              {/* Work Model */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status *
-                </label>
+                <Label label="Work Model *" />
                 <select
                   name="status"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 >
+                  <option value={null} className="hidden">Select</option>
+                  <option value="applied">On-site</option>
+                  <option value="interviewing">Work From Home</option>
+                  <option value="offer">Hybrid</option>
+                </select>
+              </div>
+
+              {/* Status */}
+              <div>
+                <Label label="Status *" />
+                <select
+                  name="status"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                >
+                  <option value={null} className="hidden">Select</option>
                   <option value="applied">Applied</option>
                   <option value="interviewing">Interviewing</option>
                   <option value="offer">Offer</option>
@@ -85,41 +105,19 @@ const JobModal = ({ isOpen, onClose }) => {
                 </select>
               </div>
 
-              {/* Salary */}
+              {/* Job Type */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Salary Range
-                </label>
-                <Input
-                  type="text"
-                  name="salary"
-                  placeholder="e.g., $80k - $120k"
-                />
-              </div>
-
-              {/* Job URL */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Job URL
-                </label>
-                <Input
-                  type="url"
-                  name="jobUrl"
-                  placeholder="https://..."
-                />
-              </div>
-
-              {/* Notes */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Notes
-                </label>
-                <textarea
-                  name="notes"
-                  placeholder="Add any additional notes..."
-                  rows="3"
+                <Label label="Job Type *" />
+                <select
+                  name="status"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                  required
+                >
+                  <option value={null} className="hidden">Select</option>
+                  <option value="applied">Full-time</option>
+                  <option value="interviewing">Part-time</option>
+                  <option value="offer">Intenship</option>
+                </select>
               </div>
             </div>
 
@@ -128,12 +126,14 @@ const JobModal = ({ isOpen, onClose }) => {
               <Button
                 text={"Cancel"}
                 type="button"
+                primary={false}
                 onClick={onClose}
                 className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
               />
               <Button
                 text={"Add Job"}
                 type="submit"
+                primary={false}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
               />
             </div>
