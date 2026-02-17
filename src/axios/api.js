@@ -1,5 +1,6 @@
 import axios from "axios";
 import camelcaseKeys from 'camelcase-keys';
+import snakecaseKeys from 'snakecase-keys';
 
 // CREATE REUSABLE AXIOS INSTANCE
 const api = axios.create({
@@ -20,6 +21,10 @@ api.interceptors.request.use(
 
         if (token) {
             config.headers.Authorization = `Bearer ${token}`
+        }
+
+        if (config.data && !(config.data instanceof FormData)) {
+            config.data = snakecaseKeys(config.data, { deep:true });
         }
 
         return config;
@@ -49,7 +54,7 @@ api.interceptors.response.use(
         const status = error.response?.status;
 
         // HANDLE UNAUTHENTICATED ACCESS (OR TOKEN EXPIRED)
-        if (status === 401) {
+        if (status === 401 || status === 403) {
             localStorage.removeItem("token");
             window.location("/login?session=expired");
         }
