@@ -1,7 +1,70 @@
+import { useEffect, useState } from 'react';
 import Button from '../Button';
 import Input from '../Input';
+import Label from '../Label';
+import api from '../../axios/api';
+import useModalStore from "../../hooks/useModalStore";
 
-const JobModal = ({ isOpen, onClose }) => {
+const JobModal = ({ isOpen, onClose, data }) => {
+  // ERROR MODAL
+  const { onOpen } = useModalStore();
+
+  // JOB INITIAL VALUE
+  const jobInitialState = {
+      company: null,
+      position: null,
+      jobUrl: null,
+      salary: null,
+      workModel: null,
+      status: null,
+      jobType: null,
+      benefits: null,
+      shiftSchedule: null,
+      hoursRequired: null,
+      isPaid: null
+  };
+  
+  // STATE MANAGE OF JOB
+  const [job, setJob] = useState(jobInitialState);
+
+  useEffect(() => {
+      if (!isOpen) {
+          setJob(jobInitialState);
+      }
+  }, [isOpen]);
+
+  // SETTING VALUE FOR JOB PROPERTY
+  const handleOnchange = (field, value) => {
+      setJob({...job, [field]: value});
+  }
+
+  // SEND REQUEST TO SERVER
+  const submitJob = async () => {
+      try {
+          /**
+           * FILTER JOB PROPERTIES
+           * REMOVE FIELD/S THAT IS NULL VALUE
+           **/
+          const filteredJob = Object.fromEntries(
+            Object.entries(job).filter(([, value]) => value !== null)
+          );
+          
+          await api.post("/v1/job-application/jobs", filteredJob);
+          data?.setJobCreated();
+          onClose();
+      }
+      catch (error) {
+        const errorMessage = error.response?.data || "Something Went Wrong!";
+        onOpen("error", errorMessage);
+    }
+  }
+
+  // TRIGGERED ONCE SUBMIT BUTTON WAS CLICKED
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    submitJob();
+  }
+
   if (!isOpen) return null;
 
   return (
@@ -27,111 +90,148 @@ const JobModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Form */}
-          <form>
-            <div className="space-y-4">
-              {/* Company Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Company Name *
-                </label>
-                <Input
-                  type="text"
-                  name="company"
-                  placeholder="e.g., Google"
-                  required
-                />
-              </div>
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-4 sm:grid grid-cols-4 gap-x-4">
+                {/* Company Name */}
+                <div>
+                  <Label label="Company" requiredIcon={true} />
+                  <Input
+                    onChange={(e) => handleOnchange("company", e.target.value)}
+                    type="text"
+                    placeholder="e.g., Google"
+                    required={true}
+                  />
+                </div>
 
-              {/* Position */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Position *
-                </label>
-                <Input
-                  type="text"
-                  name="position"
-                  placeholder="e.g., Frontend Developer"
-                  required
-                />
-              </div>
+                {/* Position */}
+                <div>
+                  <Label label="Position" requiredIcon={true} />
+                  <Input
+                    onChange={(e) => handleOnchange("position", e.target.value)}
+                    type="text"
+                    placeholder="e.g., Frontend Developer"
+                    required={true}
+                  />
+                </div>
 
-              {/* Location */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Location
-                </label>
-                <Input
-                  type="text"
-                  name="location"
-                  placeholder="e.g., San Francisco, CA"
-                />
-              </div>
+                {/* Job URL */}
+                <div>
+                  <Label label="Job URL" />
+                  <Input
+                    onChange={(e) => handleOnchange("jobUrl", e.target.value)}
+                    type="text"
+                    placeholder="https://..."
+                  />
+                </div>
 
-              {/* Status */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status *
-                </label>
-                <select
-                  name="status"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                >
-                  <option value="applied">Applied</option>
-                  <option value="interviewing">Interviewing</option>
-                  <option value="offer">Offer</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="wishlist">Wishlist</option>
-                </select>
-              </div>
+                {/* Salary */}
+                <div>
+                  <Label label="Salary" requiredIcon={true} />
+                  <Input
+                    onChange={(e) => handleOnchange("salary", e.target.value)}
+                    type="number"
+                    placeholder="e.g., 8,000"
+                    required={true}
+                  />
+                </div>
 
-              {/* Date Applied */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Date Applied
-                </label>
-                <Input
-                  type="date"
-                  name="dateApplied"
-                />
-              </div>
+                {/* Work Model */}
+                <div>
+                  <Label label="Work Model" requiredIcon={true} />
+                  <select
+                    onChange={(e) => handleOnchange("workModel", e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                    defaultValue=""
+                  >
+                    <option value="" disabled className="hidden">Select</option>
+                    <option value="onsite">On-site</option>
+                    <option value="remote">Work From Home</option>
+                    <option value="hybrid">Hybrid</option>
+                  </select>
+                </div>
 
-              {/* Salary */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Salary Range
-                </label>
-                <Input
-                  type="text"
-                  name="salary"
-                  placeholder="e.g., $80k - $120k"
-                />
-              </div>
+                {/* Status */}
+                <div>
+                  <Label label="Status" requiredIcon={true} />
+                  <select
+                    onChange={(e) => handleOnchange("status", e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                    defaultValue=""
+                  >
+                    <option value="" disabled className="hidden">Select</option>
+                    <option value="applied">Applied</option>
+                    <option value="interviewing">Interviewing</option>
+                    <option value="offer">Offer</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="wishlist">Wishlist</option>
+                  </select>
+                </div>
 
-              {/* Job URL */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Job URL
-                </label>
-                <Input
-                  type="url"
-                  name="jobUrl"
-                  placeholder="https://..."
-                />
-              </div>
+                {/* Job Type */}
+                <div>
+                  <Label label="Job Type" requiredIcon={true} />
+                  <select
+                    onChange={(e) => handleOnchange("jobType", e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                    defaultValue=""
+                  >
+                    <option value="" disabled className="hidden">Select</option>
+                    <option value="FULL TIME">Full-time</option>
+                    <option value="PART TIME">Part-time</option>
+                    <option value="INTERNSHIP">Internship</option>
+                  </select>
+                </div>
 
-              {/* Notes */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Notes
-                </label>
-                <textarea
-                  name="notes"
-                  placeholder="Add any additional notes..."
-                  rows="3"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+                {job.jobType === "FULL TIME" && (
+                    <div>
+                      <Label label="Benefits" requiredIcon={true} />
+                      <Input
+                        onChange={(e) => handleOnchange("benefits", e.target.value)}
+                        type="text"
+                        placeholder="13th month pay"
+                        required={true}
+                      />
+                    </div>
+                )}
+
+                {job.jobType === "PART TIME" && (
+                    <div>
+                      <Label label="Shift Schedule *" />
+                      <Input
+                        onChange={(e) => handleOnchange("shiftSchedule", e.target.value)}
+                        type="text"
+                        placeholder="Night Shift"
+                        required={true}
+                      />
+                    </div>
+                )} 
+
+                {job.jobType === "INTERNSHIP" && (
+                    <div>
+                      <Label label="Hours Required" requiredIcon={true} />
+                      <Input
+                        onChange={(e) => handleOnchange("hoursRequired", e.target.value)}
+                        type="number"
+                        placeholder="500 hours"
+                        required={true}
+                      />
+                      
+                      <Label label="Paid" requiredIcon={true} />
+                      <select   
+                        onChange={(e) => handleOnchange("isPaid", e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                        defaultValue=""
+                      > 
+                        <option value="" disabled className="hidden">Select</option>
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                      </select>
+                    </div>
+                )}
             </div>
 
             {/* Actions */}
@@ -139,16 +239,18 @@ const JobModal = ({ isOpen, onClose }) => {
               <Button
                 text={"Cancel"}
                 type="button"
+                primary={false}
                 onClick={onClose}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-xl hover:bg-gray-300"
               />
               <Button
-                text={"Add Job"}
+                text={"Submit"}
                 type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                primary={false}
+                className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
               />
             </div>
-          </form>
+          </form>     
         </div>
       </div>
     </div>

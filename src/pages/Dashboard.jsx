@@ -9,11 +9,12 @@ import api from '../axios/api';
 
 const Dashboard = () => {
     // CUSTOM HOOKS
-    const { onOpen } = useModalStore();
+    const { onOpen, isOpen } = useModalStore();
     const { user, isLoading } = useAuth(); // USER HAS ONLY EMAIL AND USERNAME PROPERTIES
 
     const [ jobs, setJobs ] = useState([]);
     const [ isJobFetching, setJobFetching ] = useState(true);
+    const [jobCreated, setJobCreated] = useState(0);
 
     // FETCH JOBS
     useEffect(() => {
@@ -21,10 +22,10 @@ const Dashboard = () => {
             api.get("/v1/job-application/jobs")
                .then(response => setJobs(response.data))
                .catch(error => console.log(error.response?.data))
-               .finally(setJobFetching(false));
+               .finally(() => setJobFetching(false));
         }
 
-    }, [user]);
+    }, [user, jobCreated]);
 
     if (isLoading) {
         return (
@@ -39,10 +40,11 @@ const Dashboard = () => {
         <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Profile Section */}
-                { user && 
+                { user && (
                     <div className="flex justify-center mb-8">
                         <ProfileDropdown {...user} />
-                    </div> }
+                    </div> 
+                )}
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-8">
@@ -51,22 +53,23 @@ const Dashboard = () => {
                         <p className="text-gray-600 mt-1">Manage your job applications</p>
                     </div>
                     <Button 
-                        onClick={() => onOpen("createJob")}
+                        onClick={() => onOpen("createJob", { setJobCreated : (prev) => { prev = prev + 1} })}
                         text="+ Add New Job" 
                         className="shadow-lg"
                     />
                 </div>
 
                 {/* Jobs Section */}
-                { !isJobFetching && jobs.length === 0 ? <Empty /> : 
+                { 
+                    !isJobFetching && jobs.length === 0 ? <Empty /> : 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Interviewing"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                        <JobCard company={"Google"} role={"Backend Developer"} status={"Applied"} appliedAt={"January 05 2026"} salary={"$330"}/>
-                    </div> }
+                        {
+                            jobs.map((job) => (
+                                <JobCard key={job.id} {...job} />
+                            ))
+                        }
+                    </div> 
+                }
             </div>
         </div>
     );
