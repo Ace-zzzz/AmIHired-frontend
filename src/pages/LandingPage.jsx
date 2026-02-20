@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import CheckMark from "../components/CheckMark";
+import Button from "../components/ui/Button";
+import CheckMark from "../components/ui/CheckMark";
 
 const LandingPage = () => {
     const navigate = useNavigate();

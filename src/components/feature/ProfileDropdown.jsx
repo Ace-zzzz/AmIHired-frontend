@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Settings, LogOut } from "lucide-react";
-import useGoto from '../hooks/useGoto';
+import useGoto from '../../hooks/useGoto';
 
 const ProfileDropdown = ({ username, email }) => {
     const [isOpen, setIsOpen] = useState(false);

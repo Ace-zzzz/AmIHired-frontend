@@ -1,9 +1,9 @@
-import Button from "../components/Button";
-import JobCard from "../components/JobCard";
+import Button from "../components/ui/Button";
+import JobCard from "../components/feature/JobCard";
 import useModalStore from "../hooks/useModalStore";
 import useAuth from "../hooks/useAuth";
-import ProfileDropdown from "../components/ProfileDropdown";
-import Empty from "../components/Empty";
+import ProfileDropdown from "../components/feature/ProfileDropdown";
+import Empty from "../components/shared/Empty";
 import { useEffect, useState } from "react";
 import api from '../axios/api';
 

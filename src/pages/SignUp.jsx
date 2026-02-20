@@ -1,6 +1,6 @@
-import Button from "../components/Button";
-import Input from "../components/Input";
-import ClickableSpan from "../components/ClickableSpan";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import ClickableSpan from "../components/ui/ClickableSpan";
 import { useState } from "react";
 import EyeIcon from "../components/icons/EyeIcon";
 import EyeSlashIcon from "../components/icons/EyeSlashIcon";

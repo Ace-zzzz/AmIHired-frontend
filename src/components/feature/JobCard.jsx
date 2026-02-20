@@ -1,6 +1,6 @@
-import Button from "./Button";
-import CheckMark from "./CheckMark";
-import Link from "./Link";
+import Button from "../ui/Button";
+import CheckMark from "../ui/CheckMark";
+import Link from '../ui/Link';
 
 const JobCard = ({
     jobType,

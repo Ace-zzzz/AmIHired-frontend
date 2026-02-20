@@ -1,6 +1,6 @@
-import Input from "../components/Input";
-import Button from "../components/Button";
-import ClickableSpan from "../components/ClickableSpan";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import ClickableSpan from "../components/ui/ClickableSpan";
 import api from "../axios/api"
 import { useState } from "react";
 import userModalStore from '../hooks/useModalStore';
