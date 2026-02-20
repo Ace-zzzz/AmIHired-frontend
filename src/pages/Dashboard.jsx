@@ -15,6 +15,7 @@ const Dashboard = () => {
     const [ jobs, setJobs ] = useState([]);
     const [ isJobFetching, setJobFetching ] = useState(true);
     const [jobCreated, setJobCreated] = useState(0);
+    const [jobDeleted, setJobDeleted] = useState(0);
 
     // FETCH JOBS
     useEffect(() => {
@@ -25,7 +26,7 @@ const Dashboard = () => {
                .finally(() => setJobFetching(false));
         }
 
-    }, [user, jobCreated]);
+    }, [user, jobCreated, jobDeleted]);
 
     if (isLoading) {
         return (
@@ -53,7 +54,7 @@ const Dashboard = () => {
                         <p className="text-gray-600 mt-1">Manage your job applications</p>
                     </div>
                     <Button 
-                        onClick={() => onOpen("createJob", { setJobCreated : (prev) => { prev = prev + 1} })}
+                        onClick={() => onOpen("createJob", { setJobCreated: () => setJobCreated((prev) => prev + 1) })}
                         text="+ Add New Job" 
                         className="shadow-lg"
                     />
@@ -65,7 +66,7 @@ const Dashboard = () => {
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                         {
                             jobs.map((job) => (
-                                <JobCard key={job.id} {...job} />
+                                <JobCard key={job.id} {...job} callback={ { setJobDeleted: () => setJobDeleted((prev) => prev + 1) } } />
                             ))
                         }
                     </div> 
