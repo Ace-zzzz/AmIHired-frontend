@@ -56,7 +56,7 @@ api.interceptors.response.use(
         // HANDLE UNAUTHENTICATED ACCESS (OR TOKEN EXPIRED)
         if (status === 401 || status === 403) {
             localStorage.removeItem("token");
-            window.location("/login?session=expired");
+            window.location.href = "/login?session=expired";
         }
 
         return Promise.reject(error);

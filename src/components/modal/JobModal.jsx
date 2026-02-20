@@ -1,18 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../Button';
 import Input from '../Input';
 import Label from '../Label';
 import api from '../../axios/api';
 import useModalStore from "../../hooks/useModalStore";
 
-const JobModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
+const JobModal = ({ isOpen, onClose, data }) => {
   // ERROR MODAL
   const { onOpen } = useModalStore();
 
-  // STATE MANAGE OF JOB
-  const [job, setJob] = useState({
+  // JOB INITIAL VALUE
+  const jobInitialState = {
       company: null,
       position: null,
       jobUrl: null,
@@ -24,7 +22,16 @@ const JobModal = ({ isOpen, onClose }) => {
       shiftSchedule: null,
       hoursRequired: null,
       isPaid: null
-  });
+  };
+  
+  // STATE MANAGE OF JOB
+  const [job, setJob] = useState(jobInitialState);
+
+  useEffect(() => {
+      if (!isOpen) {
+          setJob(jobInitialState);
+      }
+  }, [isOpen]);
 
   // SETTING VALUE FOR JOB PROPERTY
   const handleOnchange = (field, value) => {
@@ -34,7 +41,16 @@ const JobModal = ({ isOpen, onClose }) => {
   // SEND REQUEST TO SERVER
   const submitJob = async () => {
       try {
-          await api.post("/v1/job-application/jobs", job);
+          /**
+           * FILTER JOB PROPERTIES
+           * REMOVE FIELD/S THAT IS NULL VALUE
+           **/
+          const filteredJob = Object.fromEntries(
+            Object.entries(job).filter(([, value]) => value !== null)
+          );
+          
+          await api.post("/v1/job-application/jobs", filteredJob);
+          data?.setJobCreated();
           onClose();
       }
       catch (error) {
@@ -48,6 +64,8 @@ const JobModal = ({ isOpen, onClose }) => {
     event.preventDefault();
     submitJob();
   }
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -76,7 +94,7 @@ const JobModal = ({ isOpen, onClose }) => {
             <div className="space-y-4 sm:grid grid-cols-4 gap-x-4">
                 {/* Company Name */}
                 <div>
-                  <Label label="Company *" />
+                  <Label label="Company" requiredIcon={true} />
                   <Input
                     onChange={(e) => handleOnchange("company", e.target.value)}
                     type="text"
@@ -87,7 +105,7 @@ const JobModal = ({ isOpen, onClose }) => {
 
                 {/* Position */}
                 <div>
-                  <Label label="Position *" />
+                  <Label label="Position" requiredIcon={true} />
                   <Input
                     onChange={(e) => handleOnchange("position", e.target.value)}
                     type="text"
@@ -108,18 +126,18 @@ const JobModal = ({ isOpen, onClose }) => {
 
                 {/* Salary */}
                 <div>
-                  <Label label="Salary *" />
+                  <Label label="Salary" requiredIcon={true} />
                   <Input
                     onChange={(e) => handleOnchange("salary", e.target.value)}
                     type="number"
-                    placeholder="e.g., $80k - $120k"
+                    placeholder="e.g., 8,000"
                     required={true}
                   />
                 </div>
 
                 {/* Work Model */}
                 <div>
-                  <Label label="Work Model *" />
+                  <Label label="Work Model" requiredIcon={true} />
                   <select
                     onChange={(e) => handleOnchange("workModel", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -135,7 +153,7 @@ const JobModal = ({ isOpen, onClose }) => {
 
                 {/* Status */}
                 <div>
-                  <Label label="Status *" />
+                  <Label label="Status" requiredIcon={true} />
                   <select
                     onChange={(e) => handleOnchange("status", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -153,7 +171,7 @@ const JobModal = ({ isOpen, onClose }) => {
 
                 {/* Job Type */}
                 <div>
-                  <Label label="Job Type *" />
+                  <Label label="Job Type" requiredIcon={true} />
                   <select
                     onChange={(e) => handleOnchange("jobType", e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -169,7 +187,7 @@ const JobModal = ({ isOpen, onClose }) => {
 
                 {job.jobType === "FULL TIME" && (
                     <div>
-                      <Label label="Benefits *" />
+                      <Label label="Benefits" requiredIcon={true} />
                       <Input
                         onChange={(e) => handleOnchange("benefits", e.target.value)}
                         type="text"
@@ -193,7 +211,7 @@ const JobModal = ({ isOpen, onClose }) => {
 
                 {job.jobType === "INTERNSHIP" && (
                     <div>
-                      <Label label="Hours Required *" />
+                      <Label label="Hours Required" requiredIcon={true} />
                       <Input
                         onChange={(e) => handleOnchange("hoursRequired", e.target.value)}
                         type="number"
@@ -201,7 +219,7 @@ const JobModal = ({ isOpen, onClose }) => {
                         required={true}
                       />
                       
-                      <Label label="Paid *" />
+                      <Label label="Paid" requiredIcon={true} />
                       <select   
                         onChange={(e) => handleOnchange("isPaid", e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -223,13 +241,13 @@ const JobModal = ({ isOpen, onClose }) => {
                 type="button"
                 primary={false}
                 onClick={onClose}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-xl hover:bg-gray-300"
               />
               <Button
                 text={"Submit"}
                 type="submit"
                 primary={false}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
               />
             </div>
           </form>     

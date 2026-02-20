@@ -14,6 +14,7 @@ const Dashboard = () => {
 
     const [ jobs, setJobs ] = useState([]);
     const [ isJobFetching, setJobFetching ] = useState(true);
+    const [jobCreated, setJobCreated] = useState(0);
 
     // FETCH JOBS
     useEffect(() => {
@@ -21,10 +22,10 @@ const Dashboard = () => {
             api.get("/v1/job-application/jobs")
                .then(response => setJobs(response.data))
                .catch(error => console.log(error.response?.data))
-               .finally(setJobFetching(false));
+               .finally(() => setJobFetching(false));
         }
 
-    }, [user, isOpen]);
+    }, [user, jobCreated]);
 
     if (isLoading) {
         return (
@@ -52,7 +53,7 @@ const Dashboard = () => {
                         <p className="text-gray-600 mt-1">Manage your job applications</p>
                     </div>
                     <Button 
-                        onClick={() => onOpen("createJob")}
+                        onClick={() => onOpen("createJob", { setJobCreated : (prev) => { prev = prev + 1} })}
                         text="+ Add New Job" 
                         className="shadow-lg"
                     />

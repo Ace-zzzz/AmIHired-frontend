@@ -10,7 +10,7 @@ const ModalProvider = () => {
 
     return (
         <>
-            {type === "createJob" && <JobModal  {...{isOpen, onClose}} />}
+            {type === "createJob" && <JobModal  {...{isOpen, onClose, data}} />}
             {type === "error" && <ErrorModal {...{isOpen, onClose, data}} />}
             {type === "success" && <SuccessModal {...{isOpen, onClose, data}} />}
         </>

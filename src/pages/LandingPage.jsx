@@ -58,7 +58,7 @@ const LandingPage = () => {
                         </div>
                     </div>
 
-                    <div className="relative lg:shrink-0 animate-float">
+                    <div className="hidden lg:block relative lg:shrink-0 animate-float">
                         <div className="absolute inset-0 bg-yellow-200/40 rounded-3xl blur-3xl"></div>
                         <div className="relative  shadow-[0_25px_60px_-12px_rgba(251,191,36,0.9)] rounded-3xl p-2 transform hover:rotate-1 transition-transform duration-300">
                             <img 
