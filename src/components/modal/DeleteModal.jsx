@@ -1,15 +1,38 @@
 import Button from '../ui/Button';
 import api from '../../axios/api';
+import { toast } from "react-toastify";
 
 const DeleteModal = ({ isOpen, onClose, data }) => {
 
     // DELETE JOB
+    const deleteJob = async () => {
+        try {
+            // SEND REQUEST TO THE SERVER TO DELETE A JOB
+            await api.delete(`/v1/job-application/jobs/${data.id}`); 
+            
+            // RE-FETCH JOB TO THE DASHBOARD
+            data?.callback.setJobDeleted(); 
+            
+            // SHOW TOAST
+            toast.success("Successfully Deleted", {
+                position: "top-right"
+            });
+        }
+        catch (error) {
+            // GET ERROR MESSAGE
+            const errorMessage = error?.response?.data.message || "Something went wrong";
+
+            // SHOW TOAST
+            toast.warning(errorMessage, {
+                position: "top-right"
+            });
+        }
+    }
+    
+    // HANDLE JOB DELETION PROCESS
     const handleConfirm = async () => {
-        await api.delete(`/v1/job-application/jobs/${data.id}`)
-                 .then(() => onClose())
-                 .catch(() => console.log("Error upon deleting job"));
-        
-        data?.callback.setJobDeleted();
+        deleteJob();
+        onClose();
     }
 
     if (!isOpen) return null;

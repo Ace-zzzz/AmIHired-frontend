@@ -7,6 +7,7 @@ import ModalProvider from './provider/ModalProvider';
 import ProtectedRoute from './auth/ProtectedRoute';
 import UnprotectedRoute from './auth/UnprotectedRoute';
 import SignUp from './pages/SignUp';
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         </Route>
       </Routes>
 
+      <ToastContainer />
       <ModalProvider />
     </>
   )

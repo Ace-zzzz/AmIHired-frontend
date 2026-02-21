@@ -9,7 +9,7 @@ import api from '../axios/api';
 
 const Dashboard = () => {
     // CUSTOM HOOKS
-    const { onOpen, isOpen } = useModalStore();
+    const { onOpen } = useModalStore();
     const { user, isLoading } = useAuth(); // USER HAS ONLY EMAIL AND USERNAME PROPERTIES
 
     const [ jobs, setJobs ] = useState([]);
