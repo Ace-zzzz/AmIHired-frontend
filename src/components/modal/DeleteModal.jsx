@@ -14,18 +14,14 @@ const DeleteModal = ({ isOpen, onClose, data }) => {
             data?.callback.setJobDeleted(); 
             
             // SHOW TOAST
-            toast.success("Successfully Deleted", {
-                position: "top-right"
-            });
+            toast.success("Successfully Deleted");
         }
         catch (error) {
             // GET ERROR MESSAGE
             const errorMessage = error?.response?.data || "Something went wrong";
 
             // SHOW TOAST
-            toast.warning(errorMessage, {
-                position: "top-right"
-            });
+            toast.error(errorMessage);
         }
     }
     

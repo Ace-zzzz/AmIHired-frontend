@@ -61,9 +61,7 @@ const JobModal = ({ isOpen, onClose, data }) => {
           data?.setJobCreated();
 
           // SHOW TOAST
-          toast.success("Successfully Created", {
-              position: "top-right"
-          });
+          toast.success("Successfully Created");
       }
       catch (error) {
         // GET ERROR MESSAGE
