@@ -76,7 +76,7 @@ const JobModal = ({ isOpen, onClose, data }) => {
 
   // PROCESS JOB CREATION
   const submitJob = async () => {
-      addJob(filterJobProperties());
+      await addJob(filterJobProperties());
       onClose();
   }
 
