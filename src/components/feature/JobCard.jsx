@@ -1,8 +1,10 @@
-import Button from "./Button";
-import CheckMark from "./CheckMark";
-import Link from "./Link";
+import Button from "../ui/Button";
+import CheckMark from "../ui/CheckMark";
+import Link from '../ui/Link';
+import useStoreModal from '../../hooks/useModalStore';
 
 const JobCard = ({
+    id,
     jobType,
     position,
     company,
@@ -10,7 +12,10 @@ const JobCard = ({
     status,
     jobUrl,
     salary,
+    callback,
 }) => {
+    const { onOpen } = useStoreModal();
+
     return (
         <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow duration-200 animate-fade-in">
             <div className="flex justify-between items-start mb-4">
@@ -57,7 +62,7 @@ const JobCard = ({
 
             <div className="flex gap-2 pt-4 border-t border-gray-300">
                 <Button text={"Edit"} primary={false} className="bg-blue-400 hover:bg-blue-500 text-xs p-2 px-3 font-bold text-white"/>
-                <Button text={"Delete"} primary={false} className="bg-red-400 hover:bg-red-500 text-xs p-2 font-bold text-white"/>
+                <Button text={"Delete"} primary={false} onClick={() => onOpen("delete", { title: `${position} at ${company}`, id: id, callback: callback })}  className="bg-red-400 hover:bg-red-500 text-xs p-2 font-bold text-white"/>
             </div>
         </div>
     )

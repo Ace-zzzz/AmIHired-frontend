@@ -1,5 +1,5 @@
 import useGoto from "../../hooks/useGoto";
-import Button from '../Button';
+import Button from '../ui/Button';
 
 const SuccessModal = ({isOpen, onClose, data}) => {
     const { goToLogin } = useGoto();

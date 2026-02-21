@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Button from '../Button';
-import Input from '../Input';
-import Label from '../Label';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+import Label from '../ui/Label';
 import api from '../../axios/api';
 import useModalStore from "../../hooks/useModalStore";
+import { toast } from "react-toastify";
 
 const JobModal = ({ isOpen, onClose, data }) => {
   // ERROR MODAL
@@ -38,25 +39,43 @@ const JobModal = ({ isOpen, onClose, data }) => {
       setJob({...job, [field]: value});
   }
 
-  // SEND REQUEST TO SERVER
-  const submitJob = async () => {
+  /**
+   * FILTER JOB PROPERTIES
+   * REMOVE FIELD/S THAT IS NULL VALUE
+   **/
+  const filterJobProperties = () => {
+    const filteredJob = Object.fromEntries(
+      Object.entries(job).filter(([, value]) => value !== null)
+    );
+
+    return filteredJob;
+  }
+
+  // CREATE JOB
+  const addJob = async (job) => {
       try {
-          /**
-           * FILTER JOB PROPERTIES
-           * REMOVE FIELD/S THAT IS NULL VALUE
-           **/
-          const filteredJob = Object.fromEntries(
-            Object.entries(job).filter(([, value]) => value !== null)
-          );
-          
-          await api.post("/v1/job-application/jobs", filteredJob);
+          // SEND REQUEST TO THE SERVER TO CREATE JOB
+          await api.post("/v1/job-application/jobs", job);
+
+          // RE-FETCH JOB TO THE DASHBOARD
           data?.setJobCreated();
-          onClose();
+
+          // SHOW TOAST
+          toast.success("Successfully Created");
       }
       catch (error) {
+        // GET ERROR MESSAGE
         const errorMessage = error.response?.data || "Something Went Wrong!";
-        onOpen("error", errorMessage);
+        
+        // SHOW ERROR MODAL
+        onOpen("error", errorMessage); 
     }
+  }
+
+  // PROCESS JOB CREATION
+  const submitJob = async () => {
+      await addJob(filterJobProperties());
+      onClose();
   }
 
   // TRIGGERED ONCE SUBMIT BUTTON WAS CLICKED

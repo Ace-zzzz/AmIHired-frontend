@@ -7,6 +7,8 @@ import ModalProvider from './provider/ModalProvider';
 import ProtectedRoute from './auth/ProtectedRoute';
 import UnprotectedRoute from './auth/UnprotectedRoute';
 import SignUp from './pages/SignUp';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
         </Route>
       </Routes>
 
+      <ToastContainer position="top-right" autoClose={3000}/>
       <ModalProvider />
     </>
   )
