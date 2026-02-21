@@ -8,7 +8,7 @@ const DeleteModal = ({ isOpen, onClose, data }) => {
     const deleteJob = async () => {
         try {
             // SEND REQUEST TO THE SERVER TO DELETE A JOB
-            await api.delete(`/v1/job-application/jobs/${data.id}`); 
+            await api.delete(`/v1/job-application/jobs/10`); 
             
             // RE-FETCH JOB TO THE DASHBOARD
             data?.callback.setJobDeleted(); 
@@ -19,11 +19,8 @@ const DeleteModal = ({ isOpen, onClose, data }) => {
             });
         }
         catch (error) {
-            // GET ERROR MESSAGE
-            const errorMessage = error?.response?.data.message || "Something went wrong";
-
             // SHOW TOAST
-            toast.warning(errorMessage, {
+            toast.warning("Something went wrong on our end", {
                 position: "top-right"
             });
         }
