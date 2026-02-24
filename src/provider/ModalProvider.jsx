@@ -3,6 +3,7 @@ import JobModal from '../components/modal/JobModal'
 import ErrorModal from '../components/modal/ErrorModal'
 import SuccessModal from '../components/modal/SuccessModal'
 import DeleteModal from "../components/modal/DeleteModal"
+import JobDetailsModal from "../components/modal/JobDetailsModal"
 
 const ModalProvider = () => {
     const { type, isOpen, onClose, data } = useModalStore();
@@ -15,6 +16,7 @@ const ModalProvider = () => {
             {type === "error" && <ErrorModal {...{isOpen, onClose, data}} />}
             {type === "success" && <SuccessModal {...{isOpen, onClose, data}} />}
             {type === "delete" && <DeleteModal {...{isOpen, onClose, data}} />}
+            {type === "jobDetails" && <JobDetailsModal {...{isOpen, onClose, data}} />}
         </>
     )
 }
